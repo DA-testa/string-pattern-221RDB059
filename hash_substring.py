@@ -3,14 +3,14 @@
 def read_input():
     # this function needs to aquire input both from keyboard and file
     # as before, use capital i (input from keyboard) and capital f (input from file) to choose which input type will follow
-    test_type = input("Choose a test type (I or F): ").lower()
+    test_type = input().lower()
 
     if "i" in test_type:
         # input from keyboard
-        pattern = input("Pattern: ")
-        text = input("Text: ")
+        pattern = input()
+        text = input()
     elif "f" in test_type:
-        filename = input("Enter file name: ")
+        filename = input()
         with open(f"tests/{filename}", 'r') as f:
             pattern = f.readline()
             text = f.readline()
