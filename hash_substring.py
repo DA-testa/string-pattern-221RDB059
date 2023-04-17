@@ -3,7 +3,20 @@
 def read_input():
     # this function needs to aquire input both from keyboard and file
     # as before, use capital i (input from keyboard) and capital f (input from file) to choose which input type will follow
+    test_type = input("Choose a test type (I or F): ").lower()
 
+    if "i" in test_type:
+        # input from keyboard
+        pattern = input("Pattern: ")
+        text = input("Text: ")
+    elif "f" in test_type:
+        filename = input("Enter file name: ")
+        with open(f"tests/{filename}", 'r') as f:
+            pattern = f.readline()
+            text = f.readline()
+    else:
+        raise Exception("Unknown command")
+    return pattern.rstrip(), text.rstrip()
     # after input type choice
     # read two lines
     # first line is pattern
@@ -12,7 +25,6 @@ def read_input():
     # return both lines in one return
 
     # this is the sample return, notice the rstrip function
-    return (input().rstrip(), input().rstrip())
 
 
 def print_occurrences(output):
@@ -21,17 +33,11 @@ def print_occurrences(output):
 
 
 def hash(pattern):
-    output = 0
+    output = 7
     count = len(pattern) - 1
-
     for i in range(len(pattern)):
-        curr_hash = ord(pattern[i]) - 65
-        curr_hash *= 2**(count/2)
-        curr_hash += 65
-        curr_hash *= 2**(count/2)
-        output *= curr_hash
-
-        count -= 1
+        output += ord(pattern[i])
+        output *= 37
 
     return output
 
@@ -39,7 +45,7 @@ def hash(pattern):
 def get_occurrences(pattern, text):
     output = []
     pattern_hash = hash(pattern)
-    for i in range(len(text) - len(pattern)):
+    for i in range(len(text) - len(pattern) + 1):
         text_part = text[i:i+len(pattern)]
         curr_hash = hash(text_part)
         if curr_hash == pattern_hash:
